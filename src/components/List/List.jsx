@@ -1,8 +1,9 @@
 import {useEffect, useState} from 'react'
 import { DataGrid } from '@mui/x-data-grid';
 import { useHttp } from '../api/http.hook';
-import Sceleton from '../Sceleton/Sceleton';
-import SkeletonTypography from '../Error/Error';
+
+import { setContent } from '../utils/setContent';
+
 function List() {
     const [rows, setRows] = useState([]);
     const { request, process } = useHttp();
@@ -32,23 +33,10 @@ useEffect(() => {
           width: 160,
         },
       ];
- const setContent = (process) => {
-       switch(process){
-        case 'waiting': 
-           return <Sceleton />
-        case 'loading':
-           return <Sceleton />
-        case 'confirmed':
-           return <Component rows={rows} columns={columns}/>
-        case 'error':
-           return <SkeletonTypography /> 
-           
-        default: <Component rows={rows} columns={columns}/>
-       }
- }
+
   return (
      <>
-        {setContent(process)}
+        {setContent(process, Component, {rows, columns})}
      </>
   )
 }
